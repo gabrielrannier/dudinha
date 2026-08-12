@@ -7,6 +7,14 @@
   <meta name="description" content="Dois anos de uma história muito especial." />
   <title>2 anos de nós ❤️</title>
   <link rel="stylesheet" href="style.css?v=20260812d">
+  <style>
+    .hero{position:relative}
+    .scroll-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px;border:0;background:transparent;color:#986478;cursor:pointer;font:inherit;font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;z-index:4}
+    .scroll-hint span{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 8px 24px rgba(108,33,61,.1);color:#ad3b64;font-size:20px;animation:scrollBounce 1.5s ease-in-out infinite}
+    @keyframes scrollBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+    @media(max-width:720px){.hero{padding-bottom:72px}.scroll-hint{bottom:12px;font-size:9px}.scroll-hint span{width:31px;height:31px}}
+    @media(prefers-reduced-motion:reduce){.scroll-hint span{animation:none}}
+  </style>
 </head>
 <body class="locked">
   <div class="ambient" id="ambient" aria-hidden="true"></div>
@@ -26,7 +34,7 @@
         <div class="badge">12 de agosto de 2026 · nosso dia ❤️</div>
         <h2>2 anos de nós</h2>
         <p class="hero-lead">Dois anos de lembranças, risadas, parceria e momentos que eu guardaria de novo mil vezes. <strong>E que venham muitos mais.</strong></p>
-        <div class="anniversary-pill">Feliz 2 anos de namoro, meu amor ✨</div>
+        <div class="anniversary-pill">Feliz 2 anos de namoro, meu amor ❤️</div>
 
         <div class="stats">
           <div class="stat"><strong>2</strong><span>anos de nós</span></div>
@@ -41,6 +49,11 @@
           <button class="btn soft" id="heroMusic" onclick="toggleMusic()">🎵 Tocar nossa música</button>
         </div>
       </div>
+
+      <button class="scroll-hint" onclick="scrollToGallery()" aria-label="Continuar nossa história">
+        continue nossa história
+        <span>↓</span>
+      </button>
     </section>
 
     <section class="section reveal" id="memorias">
@@ -105,6 +118,6 @@
   </aside>
 
   <audio id="music" preload="auto" src="nossa-musica.mp3?v=b8d355d0"></audio>
-  <script src="app.js?v=20260812d"></script>
+  <script src="app.js?v=20260812e"></script>
 </body>
 </html>
