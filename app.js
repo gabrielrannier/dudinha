@@ -1,6 +1,7 @@
 const photos = Array.from({ length: 14 }, (_, i) => `foto${i + 1}.jpeg`);
 let currentPhoto = 0;
 let musicStarted = false;
+let musicSeeked = false;
 const mainPhoto = document.getElementById('mainPhoto');
 const stage = document.getElementById('stage');
 const thumbs = document.getElementById('thumbs');
@@ -76,25 +77,50 @@ function closeLetter() {
 }
 function closeLetterBackdrop(e) { if (e.target.id === 'letterModal') closeLetter(); }
 
+function seekMusicToStart() {
+  if (musicSeeked) return true;
+  if (music.readyState >= 1 && Number.isFinite(music.duration) && music.duration > MUSIC_START) {
+    try {
+      music.currentTime = MUSIC_START;
+      musicSeeked = true;
+      musicStarted = true;
+      return true;
+    } catch (e) {}
+  }
+  return false;
+}
+
 function syncMusicUI() {
-  const playing = !music.paused;
+  const playing = !music.paused && !music.ended;
   player.classList.add('show');
   playerButton.textContent = playing ? '⏸' : '▶';
   heroMusic.textContent = playing ? '⏸️ Pausar música' : '🎵 Tocar nossa música';
-  musicStatus.textContent = playing ? 'tocando a partir de 1:03' : 'a partir de 1:03';
+  if (playing) musicStatus.textContent = 'tocando a partir de 1:03';
+  else if (!music.error) musicStatus.textContent = 'a partir de 1:03';
 }
 
 async function playMusic() {
-  if (!musicStarted || music.currentTime < MUSIC_START - 1) {
-    music.currentTime = MUSIC_START;
-    musicStarted = true;
+  player.classList.add('show');
+  musicStatus.textContent = 'carregando música...';
+
+  if (!musicSeeked) {
+    seekMusicToStart();
+    if (!musicSeeked) {
+      music.addEventListener('loadedmetadata', () => {
+        seekMusicToStart();
+      }, { once: true });
+    }
   }
+
   try {
     await music.play();
+    if (!musicSeeked) seekMusicToStart();
+    syncMusicUI();
   } catch (e) {
-    musicStatus.textContent = 'toque no botão para iniciar';
+    musicStatus.textContent = 'clique novamente para iniciar';
+    playerButton.textContent = '▶';
+    heroMusic.textContent = '🎵 Tocar nossa música';
   }
-  syncMusicUI();
 }
 
 function pauseMusic() {
@@ -103,25 +129,32 @@ function pauseMusic() {
 }
 
 async function toggleMusic() {
-  if (music.paused) await playMusic();
+  if (music.paused || music.ended) await playMusic();
   else pauseMusic();
 }
 
-async function startExperience() {
+function startExperience() {
   document.getElementById('intro').classList.add('hidden');
   document.body.classList.remove('locked');
-  await playMusic();
+  playMusic();
 }
 
+music.addEventListener('loadedmetadata', () => {
+  if (!musicSeeked) seekMusicToStart();
+});
+music.addEventListener('canplay', () => {
+  if (!musicSeeked) seekMusicToStart();
+});
 music.addEventListener('play', syncMusicUI);
 music.addEventListener('pause', syncMusicUI);
 music.addEventListener('ended', async () => {
-  music.currentTime = MUSIC_START;
+  musicSeeked = false;
+  seekMusicToStart();
   try { await music.play(); } catch (e) {}
 });
 music.addEventListener('error', () => {
   player.classList.add('show');
-  musicStatus.textContent = 'arquivo de áudio não encontrado';
+  musicStatus.textContent = 'não foi possível carregar o áudio';
   heroMusic.textContent = '🎵 Tocar nossa música';
   playerButton.textContent = '▶';
 });
@@ -152,6 +185,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft') changePhoto(-1);
 });
 
+music.load();
 createHearts();
 buildThumbs();
 showPhoto(0);
