@@ -1,3 +1,6 @@
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+
 const photos = Array.from({ length: 14 }, (_, i) => `foto${i + 1}.jpeg`);
 let currentPhoto = 0;
 let musicStarted = false;
@@ -32,12 +35,12 @@ function buildThumbs() {
     button.className = 'thumb' + (index === 0 ? ' active' : '');
     button.setAttribute('aria-label', `Abrir foto ${index + 1}`);
     button.innerHTML = `<img src="${src}" alt="Miniatura ${index + 1}" loading="lazy">`;
-    button.addEventListener('click', () => showPhoto(index));
+    button.addEventListener('click', () => showPhoto(index, true));
     thumbs.appendChild(button);
   });
 }
 
-function showPhoto(index) {
+function showPhoto(index, scrollThumb = true) {
   currentPhoto = (index + photos.length) % photos.length;
   mainPhoto.classList.add('changing');
   setTimeout(() => {
@@ -47,13 +50,19 @@ function showPhoto(index) {
     stage.style.setProperty('--stage-bg', `url("${src}")`);
     document.getElementById('photoCount').textContent = `${currentPhoto + 1} / ${photos.length}`;
     [...thumbs.children].forEach((el, i) => el.classList.toggle('active', i === currentPhoto));
-    thumbs.children[currentPhoto]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    if (scrollThumb) {
+      const activeThumb = thumbs.children[currentPhoto];
+      if (activeThumb) {
+        const left = activeThumb.offsetLeft - (thumbs.clientWidth - activeThumb.clientWidth) / 2;
+        thumbs.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
+      }
+    }
     mainPhoto.classList.remove('changing');
   }, 180);
 }
 
-function changePhoto(step) { showPhoto(currentPhoto + step); }
-function scrollToGallery() { document.getElementById('memorias').scrollIntoView({ behavior: 'smooth' }); }
+function changePhoto(step) { showPhoto(currentPhoto + step, true); }
+function scrollToGallery() { document.getElementById('memorias').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 
 mainPhoto.addEventListener('click', () => {
   document.getElementById('lightboxImg').src = photos[currentPhoto];
@@ -102,16 +111,12 @@ function syncMusicUI() {
 async function playMusic() {
   player.classList.add('show');
   musicStatus.textContent = 'carregando música...';
-
   if (!musicSeeked) {
     seekMusicToStart();
     if (!musicSeeked) {
-      music.addEventListener('loadedmetadata', () => {
-        seekMusicToStart();
-      }, { once: true });
+      music.addEventListener('loadedmetadata', () => seekMusicToStart(), { once: true });
     }
   }
-
   try {
     await music.play();
     if (!musicSeeked) seekMusicToStart();
@@ -134,8 +139,10 @@ async function toggleMusic() {
 }
 
 function startExperience() {
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   document.getElementById('intro').classList.add('hidden');
   document.body.classList.remove('locked');
+  requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }));
   playMusic();
 }
 
@@ -185,9 +192,10 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft') changePhoto(-1);
 });
 
+window.addEventListener('pageshow', () => window.scrollTo(0, 0));
 music.load();
 createHearts();
 buildThumbs();
-showPhoto(0);
+showPhoto(0, false);
 updateLiveLine();
 setInterval(updateLiveLine, 1000);
