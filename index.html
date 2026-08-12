@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f8dfe7" />
   <meta name="description" content="Dois anos de uma história muito especial." />
   <title>2 anos de nós ❤️</title>
-  <link rel="stylesheet" href="style.css?v=20260812b">
+  <link rel="stylesheet" href="style.css?v=20260812c">
 </head>
 <body class="locked">
   <div class="ambient" id="ambient" aria-hidden="true"></div>
@@ -97,25 +97,14 @@
   </div>
 
   <aside class="player" id="player" aria-label="Player da nossa música">
-    <div class="player-top">
-      <div class="player-text">
-        <b>Até Ficar Velhinho ❤️</b>
-        <span>Player oficial do Spotify</span>
-      </div>
-      <button class="player-close" onclick="closeMusicPlayer()" aria-label="Fechar player">×</button>
+    <div class="player-text">
+      <b>Até Ficar Velhinho ❤️</b>
+      <span id="musicStatus">a partir de 1:03</span>
     </div>
-    <iframe
-      title="Até Ficar Velhinho - Spotify"
-      src="https://open.spotify.com/embed/track/2A8k5qftogHFc24ZIjfRvJ?utm_source=generator&theme=0"
-      width="100%"
-      height="152"
-      frameborder="0"
-      allowfullscreen=""
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy">
-    </iframe>
+    <button id="playerButton" onclick="toggleMusic()" aria-label="Pausar ou tocar música">▶</button>
   </aside>
 
-  <script src="app.js?v=20260812b"></script>
+  <audio id="music" preload="metadata" src="nossa-musica.mp3"></audio>
+  <script src="app.js?v=20260812c"></script>
 </body>
 </html>
