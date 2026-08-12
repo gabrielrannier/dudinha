@@ -1,257 +1,412 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Maria Eduarda</title>
+    <meta name="theme-color" content="#ff6f9f">
+    <title>2 anos de nós ❤️</title>
     <style>
+        :root {
+            --pink: #ff5f8f;
+            --pink-dark: #d9366e;
+            --rose: #fff1f6;
+            --text: #4a2634;
+            --white: #ffffff;
+            --shadow: 0 20px 60px rgba(130, 31, 72, .16);
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            background-color: pink;
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(255,255,255,.9) 0 3px, transparent 4px),
+                linear-gradient(135deg, #fff8fb 0%, #ffe8f0 45%, #ffd5e3 100%);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 50% 20%, transparent 0 35%, rgba(255,255,255,.28) 100%);
+            z-index: -1;
+        }
+
+        .hearts { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+        .heart {
+            position: absolute;
+            bottom: -40px;
+            opacity: 0;
+            animation: rise linear infinite;
+            filter: drop-shadow(0 5px 10px rgba(217,54,110,.15));
+        }
+        @keyframes rise {
+            0% { transform: translateY(0) rotate(0deg) scale(.7); opacity: 0; }
+            15% { opacity: .65; }
+            85% { opacity: .35; }
+            100% { transform: translateY(-115vh) rotate(25deg) scale(1.15); opacity: 0; }
+        }
+
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 18px;
+        }
+
+        .hero-card {
+            width: min(980px, 100%);
             text-align: center;
-            font-family: Arial, sans-serif;
-            position: relative;
-            overflow-x: hidden; /* Impede que as flores saiam da tela horizontalmente */
-            overflow-y: hidden; /* Impede que as flores saiam da tela verticalmente */
+            padding: 48px 28px 38px;
+            border: 1px solid rgba(255,255,255,.8);
+            background: rgba(255,255,255,.7);
+            backdrop-filter: blur(18px);
+            border-radius: 34px;
+            box-shadow: var(--shadow);
         }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 999px;
+            background: #fff;
+            color: var(--pink-dark);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            box-shadow: 0 8px 25px rgba(130,31,72,.08);
+        }
+
         h1 {
+            margin: 20px 0 8px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(44px, 8vw, 82px);
+            line-height: .95;
+            color: #9f2454;
+        }
+
+        .subtitle {
+            margin: 0 auto;
+            max-width: 650px;
+            font-size: clamp(17px, 3vw, 22px);
+            line-height: 1.55;
+            color: #704050;
+        }
+
+        .anniversary {
+            margin: 28px auto 0;
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #ff6f9f, #e94076);
             color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            margin-top: 50px;
+            font-weight: 800;
+            box-shadow: 0 12px 30px rgba(233,64,118,.25);
         }
-        .timer {
-            font-size: 24px;
-            margin-top: 20px;
-            color: white;
+
+        .counter-wrap {
+            margin: 34px auto 0;
+            max-width: 780px;
         }
-        .carousel {
-            position: relative;
-            width: 300px;
-            margin: 40px auto 20px;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        .counter-label { font-size: 13px; text-transform: uppercase; letter-spacing: .12em; font-weight: 800; color: #a04464; }
+        .counter {
+            margin-top: 14px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
         }
-        .carousel img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            display: none;
-            border-radius: 10px;
+        .time-box {
+            background: rgba(255,255,255,.88);
+            border-radius: 18px;
+            padding: 16px 8px;
+            box-shadow: 0 8px 25px rgba(130,31,72,.08);
         }
-        .carousel img.active {
-            display: block;
-        }
-        /* Botões */
-        .button {
-            background-color: white;
-            color: pink;
-            border: 2px solid pink;
-            padding: 10px 20px;
-            font-size: 18px;
-            border-radius: 10px;
+        .time-box strong { display: block; font-size: clamp(23px, 5vw, 36px); color: #a72c59; }
+        .time-box span { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: #8b6571; }
+
+        .actions { margin-top: 28px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        button {
+            border: 0;
+            border-radius: 999px;
+            padding: 13px 20px;
+            font: inherit;
+            font-weight: 800;
             cursor: pointer;
-            margin: 10px;
+            transition: transform .2s, box-shadow .2s;
         }
-        .button:hover {
-            background-color: pink;
+        button:hover { transform: translateY(-2px); }
+        .primary { color: white; background: #d9366e; box-shadow: 0 10px 25px rgba(217,54,110,.24); }
+        .secondary { color: #b02d5d; background: white; box-shadow: 0 8px 20px rgba(130,31,72,.09); }
+
+        .section { position: relative; z-index: 1; width: min(980px, 100%); margin: 0 auto; padding: 30px 18px 80px; }
+        .section-title { text-align: center; margin-bottom: 24px; }
+        .section-title h2 { margin: 0 0 7px; font-family: Georgia, serif; font-size: clamp(30px, 6vw, 48px); color: #9f2454; }
+        .section-title p { margin: 0; color: #795260; }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+        .photo {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border-radius: 22px;
+            background: #fff;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+        .photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+        .photo:hover img { transform: scale(1.06); }
+        .photo::after { content: "❤"; position: absolute; right: 12px; bottom: 10px; color: white; text-shadow: 0 2px 8px rgba(0,0,0,.3); opacity: .9; }
+
+        .message-card {
+            margin-top: 34px;
+            padding: 34px 26px;
+            text-align: center;
+            border-radius: 30px;
+            background: rgba(255,255,255,.76);
+            box-shadow: var(--shadow);
+        }
+        .message-card p { max-width: 700px; margin: 0 auto 20px; line-height: 1.8; font-size: 17px; }
+
+        footer { text-align: center; padding: 20px 18px 45px; color: #956375; font-size: 13px; }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: rgba(64, 18, 36, .55);
+            backdrop-filter: blur(8px);
+            z-index: 20;
+        }
+        .modal.show { display: flex; }
+        .letter {
+            width: min(620px, 100%);
+            max-height: 90vh;
+            overflow: auto;
+            padding: 34px 28px;
+            border-radius: 28px;
+            background: #fffafc;
+            box-shadow: 0 30px 80px rgba(0,0,0,.22);
+            animation: pop .3s ease;
+        }
+        @keyframes pop { from { opacity: 0; transform: scale(.94) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .letter h3 { margin-top: 0; color: #a32958; font-family: Georgia, serif; font-size: 30px; }
+        .letter p { line-height: 1.8; color: #573743; }
+        .close { margin-top: 10px; background: #d9366e; color: white; }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translate(-50%, 20px);
+            background: #4b1f31;
             color: white;
+            padding: 13px 18px;
+            border-radius: 999px;
+            opacity: 0;
+            pointer-events: none;
+            transition: .3s;
+            z-index: 30;
+            text-align: center;
         }
+        .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-        /* Estilo do fundo da carta */
-    .letter-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 999;
-    }
-
-    /* Estilo da carta */
-    .letter {
-        width: 320px;
-        background: white;
-        border-radius: 10px;
-        padding: 20px;
-        text-align: center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: transform 0.5s, opacity 0.5s;
-        cursor: pointer;
-        position: relative;
-    }
-
-    /* Parte da frente da carta */
-    .letter-front {
-        font-size: 18px;
-        font-weight: bold;
-        color: #d63384;
-        padding: 20px;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Conteúdo da carta (oculto até abrir) */
-    .letter-content {
-        display: none;
-        font-size: 16px;
-        color: #333;
-        padding: 20px;
-    }
-
-    /* Efeito ao abrir a carta */
-    .letter.open {
-        transform: translateY(-30px);
-    }
-
-    }
-
-    .flower {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background-image: url('flor.png'); /* Verifique se o caminho da flor está correto */
-    background-size: cover;
-    animation: float 10s infinite;
-    pointer-events: none; /* Impede que as flores interfiram na interação com outros elementos */
-}
-
-    /* Animação para as florzinhas se moverem suavemente */
-    @keyframes float {
-        0% {
-            transform: translateY(0);
+        @media (max-width: 650px) {
+            .hero { padding: 24px 12px; }
+            .hero-card { padding: 35px 16px 28px; border-radius: 26px; }
+            .counter { grid-template-columns: repeat(2, 1fr); }
+            .gallery { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .section { padding-bottom: 55px; }
         }
-        50% {
-            transform: translateY(20px);
-        }
-        100% {
-            transform: translateY(0);
-        }
-    }
     </style>
 </head>
 <body>
-    <h1>Para a Minha Princesa 💖</h1>
-    <div class="timer" id="timer"></div>
-    <div class="carousel">
-        <img src="foto1.jpeg" class="active" alt="Foto nossa">
-        <img src="foto2.jpeg" alt="Foto nossa">
-        <img src="foto3.jpeg" alt="Foto nossa">
-        <img src="foto4.jpeg" alt="Foto nossa">
-        <img src="foto5.jpeg" alt="Foto nossa">
-        <img src="foto6.jpeg" alt="Foto nossa">
-        <img src="foto7.jpeg" alt="Foto nossa">
-        <img src="foto8.jpeg" alt="Foto nossa">
-        <img src="foto9.jpeg" alt="Foto nossa">
+    <div class="hearts" id="hearts"></div>
+
+    <main>
+        <section class="hero">
+            <div class="hero-card">
+                <div class="eyebrow">12 de agosto de 2026 · nosso dia ❤️</div>
+                <h1>2 anos de nós</h1>
+                <p class="subtitle">Dois anos de histórias, risadas, carinho, momentos inesquecíveis e de uma escolha que eu faria de novo todos os dias: <strong>você.</strong></p>
+                <div class="anniversary">Feliz 2 anos de namoro, meu amor! 💖</div>
+
+                <div class="counter-wrap">
+                    <div class="counter-label">Juntos desde 12/08/2024 às 19:30</div>
+                    <div class="counter" id="counter">
+                        <div class="time-box"><strong id="years">2</strong><span>anos</span></div>
+                        <div class="time-box"><strong id="days">0</strong><span>dias</span></div>
+                        <div class="time-box"><strong id="hours">0</strong><span>horas</span></div>
+                        <div class="time-box"><strong id="minutes">0</strong><span>minutos</span></div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="primary" onclick="openLetter()">💌 Ler minha carta</button>
+                    <button class="secondary" onclick="toggleMusic()" id="musicButton">🎵 Tocar nossa música</button>
+                    <button class="secondary" onclick="showSurprise()">✨ Surpresa</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-title">
+                <h2>Nossos momentos</h2>
+                <p>Alguns registros de uma história que ainda está só começando.</p>
+            </div>
+
+            <div class="gallery">
+                <div class="photo"><img src="foto1.jpeg" alt="Nosso momento 1" loading="lazy"></div>
+                <div class="photo"><img src="foto2.jpeg" alt="Nosso momento 2" loading="lazy"></div>
+                <div class="photo"><img src="foto3.jpeg" alt="Nosso momento 3" loading="lazy"></div>
+                <div class="photo"><img src="foto4.jpeg" alt="Nosso momento 4" loading="lazy"></div>
+                <div class="photo"><img src="foto5.jpeg" alt="Nosso momento 5" loading="lazy"></div>
+                <div class="photo"><img src="foto6.jpeg" alt="Nosso momento 6" loading="lazy"></div>
+                <div class="photo"><img src="foto7.jpeg" alt="Nosso momento 7" loading="lazy"></div>
+                <div class="photo"><img src="foto8.jpeg" alt="Nosso momento 8" loading="lazy"></div>
+                <div class="photo"><img src="foto9.jpeg" alt="Nosso momento 9" loading="lazy"></div>
+            </div>
+
+            <div class="message-card">
+                <p><strong>Dois anos.</strong> Parece que foi ontem, mas quando olho para tudo que já vivemos, percebo o quanto nossa história é especial. Obrigado por cada sorriso, cada abraço, cada conversa e por fazer meus dias mais felizes.</p>
+                <button class="primary" onclick="openLetter()">❤️ Tem mais uma coisa...</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>Feito com carinho para Maria Eduarda · 12/08/2026 ❤️</footer>
+
+    <div class="modal" id="letterModal" onclick="closeOnBackdrop(event)">
+        <article class="letter">
+            <h3>Para você, meu amor ❤️</h3>
+            <p>Hoje a gente completa dois anos de namoro. Dois anos desde aquele 12 de agosto que mudou minha vida e começou uma das histórias mais importantes para mim.</p>
+            <p>Quando penso em nós, penso em tudo que construímos juntos: os momentos bons, as risadas sem motivo, as conversas, os planos e até os dias mais difíceis que nos ensinaram a caminhar lado a lado.</p>
+            <p>Obrigado por estar comigo, por dividir sua vida comigo e por fazer parte da minha. Eu sou muito feliz por ter você e espero que esses dois anos sejam apenas o começo de muitos outros capítulos.</p>
+            <p>Quero continuar colecionando momentos ao seu lado, conhecendo lugares, realizando sonhos, rindo das coisas mais bobas e construindo nossa história um dia de cada vez.</p>
+            <p><strong>Feliz 2 anos de nós. Eu te amo. ❤️</strong></p>
+            <p style="text-align:right"><strong>Para sempre seu,<br>Gabriel</strong></p>
+            <button class="close" onclick="closeLetter()">Fechar carta</button>
+        </article>
     </div>
-    
-    <!-- Botões de interação -->
-    <button class="button" onclick="toggleMusic()">🎵 Música</button>
-    <button class="button" onclick="showMessage()">💌 Clique aqui</button>
-    
-    <audio id="backgroundMusic" loop>
-        <source src="./Lady Gaga, Bruno Mars - Die With A Smile (Official Music Video).mp3" type="audio/mp3">
+
+    <div class="toast" id="toast"></div>
+
+    <audio id="backgroundMusic" loop preload="metadata">
+        <source src="./Lady Gaga, Bruno Mars - Die With A Smile (Official Music Video).mp3" type="audio/mpeg">
     </audio>
 
-    <div id="loveLetter" class="letter-container">
-    <div class="letter">
-        <div class="letter-front" onclick="openLetter()">
-            💌 Clique para abrir
-        </div>
-        <div class="letter-content">
-            <p><strong>Meu amor</strong>,</p>
-            <p><strong>
-                Nem sei direito como começar porque tem tanta coisa que eu queria te dizer… Mas acho que a melhor forma é simples: eu te amo. E te amo de um jeito que só cresce, que me faz querer estar com você em todos os momentos, dividir a vida, sonhar junto, rir de bobeira e te encher de carinho todos os dias.
-                
-                Desde que você chegou, tudo ficou mais bonito. Seu sorriso ilumina meu dia, sua voz me acalma, seu abraço é meu lugar favorito no mundo. Eu poderia passar horas só te olhando, admirando cada detalhe seu. Você é perfeita pra mim, de um jeito que eu nem sabia que existia.
-                
-                A gente já viveu tanta coisa juntos, e eu sei que isso é só o começo. Quero estar ao seu lado em cada momento bom, mas também nos difíceis, segurando sua mão, te dando força, sendo sempre seu porto seguro. Porque você é o meu.
-                
-                Eu não trocaria nada no mundo por nós dois. Você é o melhor presente que a vida me deu. E eu sou muito, muito feliz por ter você.
-                
-                Pra sempre seu,<br>
-                Gabriel 💖 💖</strong></p>
-            <button onclick="closeLetter()">Fechar</button>
-        </div>
-    </div>
-</div>
-
     <script>
-        function updateTimer() {
-            const startDate = new Date("2024-08-12T19:30:00");
-            const now = new Date();
-            const diff = now - startDate;
-            
-            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
-            const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
-            const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            document.getElementById("timer").innerHTML = `Estamos juntos há: ${years} anos, ${months} meses, ${days} dias, ${hours} horas, ${minutes} minutos e ${seconds} segundos 💖`;
-        }
-        setInterval(updateTimer, 1000);
-        updateTimer();
-        
-        // Carrossel de imagens
-        let currentIndex = 0;
-        const images = document.querySelectorAll(".carousel img");
-        function showNextImage() {
-            images[currentIndex].classList.remove("active");
-            currentIndex = (currentIndex + 1) % images.length;
-            images[currentIndex].classList.add("active");
-        }
-        setInterval(showNextImage, 2000);
-        
-        // Música de fundo
+        const startDate = new Date("2024-08-12T19:30:00-03:00");
+        const music = document.getElementById("backgroundMusic");
         let musicPlaying = false;
+
+        function updateCounter() {
+            const now = new Date();
+            let years = now.getFullYear() - startDate.getFullYear();
+            const anniversary = new Date(startDate);
+            anniversary.setFullYear(startDate.getFullYear() + years);
+            if (now < anniversary) years--;
+
+            const lastAnniversary = new Date(startDate);
+            lastAnniversary.setFullYear(startDate.getFullYear() + years);
+            const diff = Math.max(0, now - lastAnniversary);
+
+            const day = 86400000;
+            const hour = 3600000;
+            const minute = 60000;
+            const days = Math.floor(diff / day);
+            const hours = Math.floor((diff % day) / hour);
+            const minutes = Math.floor((diff % hour) / minute);
+
+            document.getElementById("years").textContent = years;
+            document.getElementById("days").textContent = days;
+            document.getElementById("hours").textContent = hours;
+            document.getElementById("minutes").textContent = minutes;
+        }
+
         function toggleMusic() {
-            const music = document.getElementById("backgroundMusic");
+            const button = document.getElementById("musicButton");
             if (musicPlaying) {
                 music.pause();
+                musicPlaying = false;
+                button.textContent = "🎵 Tocar nossa música";
+                showToast("Música pausada ❤️");
             } else {
-                music.play();
+                music.play().then(() => {
+                    musicPlaying = true;
+                    button.textContent = "⏸️ Pausar nossa música";
+                }).catch(() => showToast("Toque no botão novamente para iniciar a música 🎵"));
             }
-            musicPlaying = !musicPlaying;
-        }
-        
-        // Mensagem surpresa
-        function showMessage() {
-            alert("Maria Eduarda, você é o amor da minha vida! Te amo infinitamente! 💖🥰");
         }
 
         function openLetter() {
-        document.querySelector(".letter-front").style.display = "none";
-        document.querySelector(".letter-content").style.display = "block";
-        document.querySelector(".letter").classList.add("open");
+            document.getElementById("letterModal").classList.add("show");
+            document.body.style.overflow = "hidden";
         }
 
-         function closeLetter() {
-        document.getElementById("loveLetter").style.display = "none";
+        function closeLetter() {
+            document.getElementById("letterModal").classList.remove("show");
+            document.body.style.overflow = "";
         }
 
-        // Gerar as flores caindo por toda a página
-        function generateFlowers() {
-            const body = document.body;
-            const numberOfFlowers = 50; // Aumentei para 50 florzinhas
-            for (let i = 0; i < numberOfFlowers; i++) {
-                const flower = document.createElement('div');
-                flower.classList.add('flower');
-                flower.style.left = `${Math.random() * 100}vw`; // Posição aleatória no eixo X (mais espalhado)
-                flower.style.top = `${Math.random() * 100}vh`; // Posição aleatória no eixo Y (mais espalhado)
-                flower.style.animationDuration = `${Math.random() * 5 + 5}s`; // Duração aleatória da animação para mais variação
-                body.appendChild(flower);
+        function closeOnBackdrop(event) {
+            if (event.target.id === "letterModal") closeLetter();
+        }
+
+        function showSurprise() {
+            showToast("Maria Eduarda, você é uma das partes mais bonitas da minha vida. Feliz 2 anos! ❤️✨");
+        }
+
+        let toastTimer;
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove("show"), 4000);
+        }
+
+        function createHearts() {
+            const container = document.getElementById("hearts");
+            const symbols = ["❤", "♡", "♥"];
+            for (let i = 0; i < 24; i++) {
+                const heart = document.createElement("span");
+                heart.className = "heart";
+                heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.fontSize = (12 + Math.random() * 22) + "px";
+                heart.style.animationDuration = (9 + Math.random() * 12) + "s";
+                heart.style.animationDelay = (-Math.random() * 18) + "s";
+                container.appendChild(heart);
             }
-            console.log("Flores geradas!"); // Verificar no console
         }
 
-        // Chama a função para gerar as flores ao carregar a página
-        window.onload = generateFlowers;
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") closeLetter();
+        });
+
+        updateCounter();
+        setInterval(updateCounter, 1000);
+        createHearts();
     </script>
 </body>
 </html>
